@@ -23,19 +23,27 @@ export default function Canvas() {
     directionalLight.position.set(30, 30, 30);
     scene.add(directionalLight);
 
-    camera.position.x = 0;
-    camera.position.y = 5000;
-    camera.position.z = 5000;
+    camera.position.set(0, 5000, 5000);
 
     const loader = new GLTFLoader();
-    loader.load('/src/assets/rampa.glb', (gltf) => {
-      const rampa = gltf.scene;
-      rampa.scale.set(5, 5, 5);
-      rampaRef.current = rampa;
-      scene.add(rampa);
-    }, undefined, (error) => {
-      console.error('An error occurred while loading the GLTF model:', error);
-    });
+    console.log('Carregando modelo GLTF...');
+    loader.load(
+      '/src/assets/rampa.glb',
+      (gltf) => {
+        console.log('Modelo GLTF carregado com sucesso');
+        const rampa = gltf.scene;
+        rampa.scale.set(5, 5, 5);
+        rampaRef.current = rampa;
+        scene.add(rampa);
+      },
+      (xhr) => {
+        const percentage = (xhr.loaded / xhr.total) * 100;
+        console.log(`Progresso do carregamento do modelo GLTF: ${percentage.toFixed(2)}%`);
+      },
+      (error) => {
+        console.error('Ocorreu um erro ao carregar o modelo GLTF:', error);
+      }
+    );
 
     const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -59,6 +67,7 @@ export default function Canvas() {
     animate();
 
     window.addEventListener('resize', () => {
+      console.log('Redimensionamento de tela');
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
