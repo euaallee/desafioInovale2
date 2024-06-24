@@ -8,7 +8,7 @@ export default function Canvas() {
   const canvasRef = useRef(null);
   const rampaRef = useRef(null);
   const isDraggingRef = useRef(false);
-  const [percent, setPercent] = useState('')
+  const [percent, setPercent] = useState('');
 
   useEffect(() => {
     const scene = new THREE.Scene();
@@ -29,7 +29,7 @@ export default function Canvas() {
     const loader = new GLTFLoader();
     console.log('Carregando modelo GLTF...');
     loader.load(
-      '/src/assets/rampa.glb',
+      '/rampa.glb',
       (gltf) => {
         console.log('Modelo GLTF carregado com sucesso');
         const rampa = gltf.scene;
@@ -39,7 +39,7 @@ export default function Canvas() {
       },
       (xhr) => {
         const percentage = (xhr.loaded / xhr.total) * 100;
-        setPercent(`${percentage.toFixed(2)}%`)
+        setPercent(`${percentage.toFixed(2)}%`);
         console.log(`Progresso do carregamento do modelo GLTF: ${percentage.toFixed(2)}%`);
       },
       (error) => {
