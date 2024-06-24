@@ -6,3 +6,8 @@ export const Container = styled.div`
   overflow: hidden;
   background-color: #000000;
 `
+export const Percentage = styled.h1`
+  display: ${p => p.Full == '100.00%' ? 'none' : 'block'};
+  color: aliceblue;
+  font-size: 32px;
+`
