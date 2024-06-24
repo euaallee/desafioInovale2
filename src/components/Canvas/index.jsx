@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as C from './style';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -8,6 +8,7 @@ export default function Canvas() {
   const canvasRef = useRef(null);
   const rampaRef = useRef(null);
   const isDraggingRef = useRef(false);
+  const [percent, setPercent] = useState('')
 
   useEffect(() => {
     const scene = new THREE.Scene();
@@ -38,6 +39,7 @@ export default function Canvas() {
       },
       (xhr) => {
         const percentage = (xhr.loaded / xhr.total) * 100;
+        setPercent(`${percentage.toFixed(2)}%`)
         console.log(`Progresso do carregamento do modelo GLTF: ${percentage.toFixed(2)}%`);
       },
       (error) => {
@@ -77,6 +79,7 @@ export default function Canvas() {
 
   return (
     <C.Container>
+      <C.Percentage Full={percent} >{percent}</C.Percentage>
       <canvas ref={canvasRef} />
     </C.Container>
   );
